@@ -3,7 +3,6 @@ import logging
 import time
 import sys
 from .mqtt import MqttMonitor
-from .handler import Generic, GenericEnergy, GenericString
 from .adafruit import Adafruit
 from .private import username, password
 # private.py is not part of the checked in code.  You will need to create it.
@@ -13,7 +12,8 @@ from .private import username, password
 
 class Monitor:
     def __init__(self):
-        pass
+        logging.basicConfig(level=logging.DEBUG)
+        logging.info('Starting AIO Monitor')
 
     def configure(self, mqtt_monitor, metering_queue):
         # must be overridden
