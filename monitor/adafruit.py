@@ -26,16 +26,19 @@ class Adafruit:
     def mqtt_connected(self, client):
         logging.info(
             'Adafruit.mqtt_connected(): io.adafruit.com MQTT broker connected.')
-        ##client.subscribe('pmacdougal/throttle') # feed from AdaFruit to subscribe to
-        ## feeds from the loft
-        #client.subscribe('s.lt')  # feed from AdaFruit
-        ## feeds from the pumphouse
-        #client.subscribe('s.ht')  # feed from AdaFruit
-        #client.subscribe('s.it')  # feed from AdaFruit
-        #client.subscribe('s.ot')  # feed from AdaFruit
-        #client.subscribe('s.rt')  # feed from AdaFruit
-        # feeds from the rpizw
-        client.subscribe('s.mps')  # feed from AdaFruit
+        #client.subscribe('pmacdougal/throttle') # feed from AdaFruit to subscribe to
+        #client.subscribe('#') # all feeds
+        client.subscribe('rriba.b0')
+        client.subscribe('rriba.duration')
+        client.subscribe('s.ht')
+        client.subscribe('s.it')
+        client.subscribe('s.lt')
+        client.subscribe('s.mph')
+        client.subscribe('s.ot')
+        client.subscribe('s.rt')
+        client.subscribe('s.sq')
+        client.subscribe('s.ups')
+        
 
     def mqtt_disconnected(self, client):
         logging.info(
@@ -45,16 +48,16 @@ class Adafruit:
         logging.info(
             'Adafruit.mqtt_message(): got message %s with value %s.', topic, payload)
         # This is where all the work is done... parsing messages and deciding what to do with them
-        if 's.mps' == topic:
+        if topic.startswith('h.'):
+            # home data
+            pass
+        elif topic.startswith('g.'):
+            # garage data
+            pass
+        elif topic.startswith('rriba.'):
             # forward to local broker
             self.local_broker.publish(topic, payload)
-        elif ('s.ht' == topic
-              or 's.it' == topic
-              or 's.ot' == topic
-              or 's.rt' == topic):
-            # forward to local broker
-            self.local_broker.publish(topic, payload)
-        elif 's.lt' == topic:
+        elif topic.startswith('s.'):
             # forward to local broker
             self.local_broker.publish(topic, payload)
 

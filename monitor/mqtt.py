@@ -6,6 +6,7 @@ import paho.mqtt.client as mqtt
 Code to access my local MQTT broker at the given IP address
 '''
 
+
 class MqttMonitor:
     def __init__(self, IP_address, *, port=1883):
         self.IP_address = IP_address
@@ -17,10 +18,12 @@ class MqttMonitor:
 
     def on_connect(self, client, userdata, flags, result):
         logging.debug("MqttMonitor: connected with result code %s", result)
-        client.subscribe("clock") # so that we get at least one message per minute
+        # so that we get at least one message per minute
+        client.subscribe("clock")
 
     def on_message(self, client, userdata, msg):
-        logging.debug("MqttMonitor: got message %s %s at %s", msg.topic, msg.payload, msg.timestamp)
+        logging.debug("MqttMonitor: got message %s %s at %s",
+                      msg.topic, msg.payload, msg.timestamp)
 
     def on_disconnect(self, client, userdata, rc=0):
         logging.debug("MqttMonitor: Disconnected result code %s", rc)
@@ -30,5 +33,5 @@ class MqttMonitor:
         self.client.publish(topic, payload)
 
     def start(self):
-        self.client.connect(self.IP_address, self.port) #establish connection
-        self.client.loop_start() # spawn thread that calls loop() for us
+        self.client.connect(self.IP_address, self.port)  # establish connection
+        self.client.loop_start()  # spawn thread that calls loop() for us

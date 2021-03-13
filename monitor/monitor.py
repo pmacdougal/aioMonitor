@@ -10,6 +10,7 @@ from .private import username, password
 #     username = 'xxxxxxxx'
 #     password = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
+
 class Monitor:
     def __init__(self):
         logging.basicConfig(level=logging.DEBUG)
@@ -39,10 +40,9 @@ class Monitor:
         #except NotImplementedError:
         #    don't catch this exception
         else:
-            status = 0 # if normal exit
+            status = 0  # if normal exit
         finally:
             # all exits
             sys.stdout.flush()
             sys.stderr.flush()
             return(status)
-
